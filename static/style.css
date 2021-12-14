@@ -1,5 +1,8 @@
 img {
-  width: 25vw;
+  /* width: 40vw; */
+  height: 70vh;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 body {
