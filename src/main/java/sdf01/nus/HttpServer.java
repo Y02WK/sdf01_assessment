@@ -51,7 +51,7 @@ public class HttpServer {
     private void startServer() throws IOException {
         while (true) {
             Socket socket = serverSocket.accept(); // accept incoming connections on the socket
-            threadPool.submit(new HttpClientConnection(socket)); // submit thread to the threadpool
+            threadPool.submit(new HttpClientConnection(socket, fileHandler)); // submit thread to the threadpool
         }
     }
 }
