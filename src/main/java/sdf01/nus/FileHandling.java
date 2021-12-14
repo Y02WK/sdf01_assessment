@@ -1,12 +1,9 @@
 package sdf01.nus;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class FileHandling {
@@ -63,23 +60,8 @@ public class FileHandling {
         return false;
     }
 
-    protected List<String> getContents(String filename) {
-        String html;
-        List<String> contents = new ArrayList<String>();
-        try {
-            BufferedReader reader = Files.newBufferedReader(Path.of(filename));
-            while ((html = reader.readLine()) != null) {
-                contents.add(html);
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.err.println("Error reading file");
-        }
-
-        return contents;
-    }
-
-    protected byte[] getPNG(String filename) throws IOException {
+    protected byte[] getFile(String filename) throws IOException {
+        // return all bytes in the file as array
         Path filePath = Path.of(filename);
         InputStream fileStream = Files.newInputStream(filePath);
         return fileStream.readAllBytes();

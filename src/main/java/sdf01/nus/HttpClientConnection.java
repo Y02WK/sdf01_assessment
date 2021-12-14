@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.List;
 import java.util.Optional;
 
 public class HttpClientConnection implements Runnable {
@@ -75,64 +74,72 @@ public class HttpClientConnection implements Runnable {
     }
 
     private void write405(String method) {
+        // sends 405 Method Not Allowed
         String header = "HTTP/1.1 405 Method Not Allowed";
         String resText = method + " not supported";
         try {
-            writer.writeString(header);
-            writer.writeString();
-            writer.writeString(resText);
-            writer.close();
+            writeToClient(header, resText);
         } catch (Exception e) {
             System.err.println("Error in sending response to browser");
         }
     }
 
     private void write404(String url) {
+        // sends 404 Not Found
         String header = "HTTP/1.1 404 Not Found";
         String resText = url + " not found";
         try {
-            writer.writeString(header);
-            writer.writeString();
-            writer.writeString(resText);
-            writer.close();
+            writeToClient(header, resText);
         } catch (Exception e) {
             System.err.println("Error in sending response to browser");
         }
     }
 
     private void writePage(String fileDir) {
+        // sends 200 OK and the file requested
         String header = "HTTP/1.1 200 OK";
-        List<String> contents = fileHandler.getContents(fileDir);
         try {
-            // write header
-            writer.writeString(header);
-            writer.writeString();
-            for (String html : contents) {
-                writer.writeString(html);
-            }
-            writer.close();
-            return;
+            byte[] htmlBytes = fileHandler.getFile(fileDir);
+            writeToClient(header, htmlBytes, null);
+        } catch (IOException e) {
+            System.err.println("Error reading file");
         } catch (Exception e) {
             System.err.println("Error in sending response to browser");
         }
     }
 
     private void writePNG(String fileDir) {
+        // sends 200 OK and PNG image
         String header = "HTTP/1.1 200 OK";
         String contentType = "Content-Type: image/png";
         try {
-            byte[] imageBytes = fileHandler.getPNG(fileDir);
-            writer.writeString(header);
-            writer.writeString(contentType);
-            writer.writeString();
-            writer.writeBytes(imageBytes);
-            writer.close();
+            byte[] imageBytes = fileHandler.getFile(fileDir);
+            writeToClient(header, imageBytes, contentType);
         } catch (IOException e) {
-            System.err.println("Error reading PNG file");
+            System.err.println("Error reading file");
         } catch (Exception e) {
             System.err.println("Error in sending response to browser");
         }
         return;
+    }
+
+    private void writeToClient(String header, String content) throws Exception {
+        // writes response to browser using writeString
+        writer.writeString(header);
+        writer.writeString();
+        writer.writeString(content);
+        writer.close();
+    }
+
+    private void writeToClient(String header, byte[] byteArray, String contentType) throws Exception {
+        // writes response to browser using writeBytes
+        writer.writeString(header);
+        if (contentType != null) {
+            writer.writeString(contentType);
+        }
+        writer.writeString();
+        writer.writeBytes(byteArray);
+        writer.close();
     }
 
 }
