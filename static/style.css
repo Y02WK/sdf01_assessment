@@ -23,3 +23,8 @@ h1,
 a {
   margin: auto;
 }
+
+.woosh {
+  font-size: 5em;
+  color: dodgerblue;
+}
