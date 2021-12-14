@@ -2,6 +2,7 @@ package sdf01.nus;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
@@ -41,18 +42,25 @@ public class HttpServer {
             System.err.println("Failed to start serverSocket on port " + port);
             System.exit(1);
         }
-        this.threadPool = Executors.newFixedThreadPool(3);
 
-        // check if connected
-        // check docRoot 2nd method
+        // checks validity of docRoot
+        if (!this.checkDocRoot()) {
+            System.err.println("Invalid directory found in docRoot.");
+            System.exit(1);
+        }
+
+        // starts thread pool
+        this.threadPool = Executors.newFixedThreadPool(3);
     }
 
-    private void startServer() {
-        // accept incoming connections on the socket
+    private void startServer() throws IOException {
+        while (true) {
+            Socket socket = serverSocket.accept(); // accept incoming connections on the socket
+            threadPool.submit(new HttpClientConnection(socket)); // submit thread to the threadpool
+        }
 
         // new thread from HttpClientConnection
 
-        // submit thread to the threadpool
     }
 
     private boolean checkDocRoot() {
