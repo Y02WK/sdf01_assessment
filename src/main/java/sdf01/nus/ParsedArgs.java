@@ -26,7 +26,7 @@ public class ParsedArgs {
         }
 
         // iteration to check for args. (no validation)
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < args.length; i += 2) {
             if (args[i].equals("--port")) {
                 port = Integer.parseInt(args[i + 1]);
             } else if (args[i].equals("--docRoot")) {
