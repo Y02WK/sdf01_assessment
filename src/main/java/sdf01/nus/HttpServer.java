@@ -37,6 +37,8 @@ public class HttpServer {
         } catch (IOException e) {
             System.err.println("Failed to start serverSocket on port " + port);
             System.exit(1);
+        } catch (IllegalArgumentException e) {
+            System.err.println("port " + port + " invalid.");
         }
 
         // checks validity of docRoot
