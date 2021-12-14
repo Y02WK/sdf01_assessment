@@ -1,0 +1,23 @@
+img {
+  width: 25vw;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin: auto;
+}
+
+h1,
+a {
+  margin: auto;
+}
