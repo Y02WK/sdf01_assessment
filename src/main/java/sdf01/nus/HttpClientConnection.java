@@ -40,8 +40,6 @@ public class HttpClientConnection implements Runnable {
         return;
     }
 
-    // use HttpWriter
-
     // receive request from browser
     private String[] receiveFromBrowser() throws IOException {
         String request = reader.readLine();
@@ -49,7 +47,7 @@ public class HttpClientConnection implements Runnable {
         return requestArgs;
     }
 
-    // ParseRequest
+    // handle request and sends response to browser
     private void parseRequest(String[] requestArgs) {
         // check if method is GET
         String method = requestArgs[0];
@@ -103,7 +101,6 @@ public class HttpClientConnection implements Runnable {
     }
 
     private void writePage(String fileDir) {
-        // TODO
         String header = "HTTP/1.1 200 OK";
         List<String> contents = fileHandler.getContents(fileDir);
         try {
@@ -122,6 +119,21 @@ public class HttpClientConnection implements Runnable {
 
     private void writePNG(String fileDir) {
         // TODO
+        String header = "HTTP/1.1 200 OK";
+        String contentType = "Content-Type: image/png";
+        try {
+            byte[] imageBytes = fileHandler.getPNG(fileDir);
+            writer.writeString(header);
+            writer.writeString(contentType);
+            writer.writeString();
+            writer.writeBytes(imageBytes);
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Error reading PNG file");
+        } catch (Exception e) {
+            System.err.println("Error in sending response to browser");
+        }
+        return;
     }
 
 }
