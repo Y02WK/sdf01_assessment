@@ -118,7 +118,6 @@ public class HttpClientConnection implements Runnable {
     }
 
     private void writePNG(String fileDir) {
-        // TODO
         String header = "HTTP/1.1 200 OK";
         String contentType = "Content-Type: image/png";
         try {
