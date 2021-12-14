@@ -37,17 +37,16 @@ public class FilesHandler {
     public Optional<String> fileExists(String filename) {
         String parsedFilename = handleIndex(filename);
         String dirFileString;
-        Optional<String> result;
         // search all the directories for the file
         for (String dir : docRoot) {
             dirFileString = dir + parsedFilename;
             Path dirFilePath = Path.of(dirFileString);
             if (dirFilePath.toFile().exists()) {
                 // returns an optional containing the Path as a String
-                return result = Optional.ofNullable(dirFileString);
+                return Optional.ofNullable(dirFileString);
             }
         }
         // return empty Optional if file not found
-        return result = Optional.empty();
+        return Optional.empty();
     }
 }
