@@ -2,6 +2,7 @@ package sdf01.nus;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -56,8 +57,7 @@ public class FileHandling {
 
     protected boolean isPNG(String filename) {
         // returns true if the requested file is a .png
-        String[] splitString = filename.split(".");
-        if (splitString.length == 2 && splitString[1].equalsIgnoreCase("png")) {
+        if (filename.contains(".png")) {
             return true;
         }
         return false;
@@ -77,5 +77,11 @@ public class FileHandling {
         }
 
         return contents;
+    }
+
+    protected byte[] getPNG(String filename) throws IOException {
+        Path filePath = Path.of(filename);
+        InputStream fileStream = Files.newInputStream(filePath);
+        return fileStream.readAllBytes();
     }
 }
