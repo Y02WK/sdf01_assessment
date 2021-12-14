@@ -30,7 +30,12 @@ public class HttpServer {
 
     public void start() {
         this.initServer();
-        this.startServer();
+        try {
+            this.startServer();
+        } catch (IOException e) {
+            System.err.println("Socket error.");
+            System.exit(1);
+        }
         return;
     }
 
