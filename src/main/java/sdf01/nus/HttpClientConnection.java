@@ -17,6 +17,7 @@ public class HttpClientConnection implements Runnable {
         this.fileHandler = fileHandler;
     }
 
+    @Override
     public void run() {
         initStreams();
         try {
