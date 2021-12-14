@@ -48,10 +48,10 @@ public class HttpClientConnection implements Runnable {
 
     // handle request and sends response to browser
     private void parseRequest(String[] requestArgs) {
-        // check if method is GET
         String method = requestArgs[0];
         String url = requestArgs[1];
 
+        // check if method is GET
         if (!method.equals("GET")) {
             this.write405(method);
             return;
@@ -141,5 +141,4 @@ public class HttpClientConnection implements Runnable {
         writer.writeBytes(byteArray);
         writer.close();
     }
-
 }
