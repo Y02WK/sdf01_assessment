@@ -8,14 +8,14 @@ import java.util.concurrent.Executors;
 
 public class HttpServer {
     private int port;
-    private FilesHandler fileHandler;
+    private FileHandling fileHandler;
     private ServerSocket serverSocket;
     private ExecutorService threadPool;
 
     // constructor
     public HttpServer(int port, String[] docRoot) {
         this.port = port;
-        this.fileHandler = new FilesHandler(docRoot);
+        this.fileHandler = new FileHandling(docRoot);
     }
 
     public void start() {
