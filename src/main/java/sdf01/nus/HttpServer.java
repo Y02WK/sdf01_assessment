@@ -20,6 +20,7 @@ public class HttpServer {
 
     public void start() {
         this.initServer();
+        System.out.println("server started.");
         try {
             this.startServer();
         } catch (IOException e) {
