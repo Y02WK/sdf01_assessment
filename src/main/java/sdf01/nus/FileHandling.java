@@ -54,7 +54,7 @@ public class FileHandling {
 
     protected boolean isPNG(String filename) {
         // returns true if the requested file is a .png
-        if (filename.contains(".png")) {
+        if (filename.endsWith(".png")) {
             return true;
         }
         return false;
