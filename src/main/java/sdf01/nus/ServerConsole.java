@@ -10,13 +10,15 @@ import java.util.concurrent.Future;
 public class ServerConsole {
     private ExecutorService threadPool;
     private Future<?> serverFuture;
-    private HttpServer serverInstance;
+    private int port;
+    private String docRoot[];
     private boolean serverRunning = false;
 
     public ServerConsole(int port, String[] docRoot) {
         // single thread executor for one instance of the server
         threadPool = Executors.newSingleThreadExecutor();
-        serverInstance = new HttpServer(port, docRoot);
+        this.port = port;
+        this.docRoot = docRoot;
     }
 
     // run server console
@@ -61,7 +63,9 @@ public class ServerConsole {
 
     // init server instance
     private void runServer() {
+        HttpServer serverInstance = new HttpServer(port, docRoot);
         serverFuture = threadPool.submit(serverInstance);
+        serverRunning = true;
         System.out.println("Server started. Enter 'stop' to stop server.");
     }
 
@@ -69,6 +73,7 @@ public class ServerConsole {
     private void stopServer() {
         if (serverRunning) {
             serverFuture.cancel(true);
+            serverRunning = false;
             System.out.println("Server stopped");
         } else {
             System.out.println("Server not started. Enter 'start' to start server.");

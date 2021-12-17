@@ -12,7 +12,6 @@ public class HttpServer implements Runnable {
     private ServerSocket serverSocket;
     private ExecutorService threadPool;
 
-    // constructor
     public HttpServer(int port, String[] docRoot) {
         this.port = port;
         this.fileHandler = new FileHandling(docRoot);
@@ -20,12 +19,13 @@ public class HttpServer implements Runnable {
 
     public void run() {
         this.initServer();
-        System.out.println("server started.");
         try {
             this.acceptConnections();
         } catch (IOException e) {
             System.err.println("Socket error.");
             System.exit(1);
+        } catch (InterruptedException e) {
+            shutdownServer();
         }
         return;
     }
@@ -39,6 +39,7 @@ public class HttpServer implements Runnable {
             System.exit(1);
         } catch (IllegalArgumentException e) {
             System.err.println("port " + port + " invalid.");
+            System.exit(1);
         }
 
         // checks validity of docRoot
@@ -51,10 +52,20 @@ public class HttpServer implements Runnable {
         this.threadPool = Executors.newFixedThreadPool(3);
     }
 
-    private void acceptConnections() throws IOException {
-        while (true) {
+    private void acceptConnections() throws IOException, InterruptedException {
+        while (!Thread.interrupted()) {
             Socket socket = serverSocket.accept();
             threadPool.submit(new HttpClientConnection(socket, fileHandler));
+        }
+        throw new InterruptedException("Server interrupted");
+    }
+
+    private void shutdownServer() {
+        threadPool.shutdown();
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
