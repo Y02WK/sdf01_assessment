@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class HttpServer {
+public class HttpServer implements Runnable {
     private int port;
     private FileHandling fileHandler;
     private ServerSocket serverSocket;
@@ -18,11 +18,11 @@ public class HttpServer {
         this.fileHandler = new FileHandling(docRoot);
     }
 
-    public void start() {
+    public void run() {
         this.initServer();
         System.out.println("server started.");
         try {
-            this.startServer();
+            this.acceptConnections();
         } catch (IOException e) {
             System.err.println("Socket error.");
             System.exit(1);
@@ -51,7 +51,7 @@ public class HttpServer {
         this.threadPool = Executors.newFixedThreadPool(3);
     }
 
-    private void startServer() throws IOException {
+    private void acceptConnections() throws IOException {
         while (true) {
             Socket socket = serverSocket.accept();
             threadPool.submit(new HttpClientConnection(socket, fileHandler));
