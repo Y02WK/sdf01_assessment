@@ -19,6 +19,7 @@ public class HttpClientConnection implements Runnable {
 
     @Override
     public void run() {
+        // init streams and processes the request from the browser
         initStreams();
         try {
             parseRequest(receiveFromBrowser());
@@ -132,11 +133,11 @@ public class HttpClientConnection implements Runnable {
         writer.close();
     }
 
-    private void writeToClient(String header, byte[] byteArray, String contentType) throws Exception {
+    private void writeToClient(String header, byte[] byteArray, String type) throws Exception {
         // writes response to browser using writeBytes
         writer.writeString(header);
-        if (contentType != null) {
-            writer.writeString(contentType);
+        if (type != null) {
+            writer.writeString(type);
         }
         writer.writeString();
         writer.writeBytes(byteArray);
