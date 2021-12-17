@@ -54,4 +54,4 @@ stop
 Contributors names and contact info
 
 Kin
-ex. [@Y02WK](https://github.com/Y02WK)
+[@Y02WK](https://github.com/Y02WK)
