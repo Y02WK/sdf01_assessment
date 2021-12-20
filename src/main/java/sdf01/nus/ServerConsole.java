@@ -43,7 +43,7 @@ public class ServerConsole {
 
     // process user input from console
     private boolean processInput(String cmd) {
-        switch (cmd.trim().toLowerCase()) {
+        switch (cmd.strip().toLowerCase()) {
             case "start":
                 runServer();
                 return true;
