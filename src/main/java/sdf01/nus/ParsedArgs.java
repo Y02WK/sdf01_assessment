@@ -4,7 +4,7 @@ public class ParsedArgs {
     // format arguments from command line and stores them
 
     // data members with default values
-    private String[] docRoot = new String[] { "static" };
+    private String[] docRoot = { "static" };
     private int port = 3000;
 
     public ParsedArgs(String[] args) {
