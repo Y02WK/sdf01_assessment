@@ -44,18 +44,22 @@ public class ServerConsole {
     // process user input from console
     private boolean processInput(String cmd) {
         boolean result = switch (cmd.strip().toLowerCase()) {
-            case "start":
+            case "start" -> {
                 runServer();
                 yield true;
-            case "stop":
+            }
+            case "stop" -> {
                 stopServer();
                 yield true;
-            case "quit":
+            }
+            case "quit" -> {
                 quit();
                 yield false;
-            default:
+            }
+            default -> {
                 System.out.println("Command not recognized. 'start'/'stop'/'quit' only");
                 yield true;
+            }
         };
 
         return result;
